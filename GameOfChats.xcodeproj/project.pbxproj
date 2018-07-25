@@ -12,6 +12,7 @@
 		EF8942DE2107FF4C001FF5CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF8942DC2107FF4C001FF5CF /* Main.storyboard */; };
 		EF8942E02107FF4D001FF5CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF8942DF2107FF4D001FF5CF /* Assets.xcassets */; };
 		EF8942E32107FF4D001FF5CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF8942E12107FF4D001FF5CF /* LaunchScreen.storyboard */; };
+		EF8942EC21080170001FF5CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942EB21080170001FF5CF /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		EF8942DF2107FF4D001FF5CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF8942E22107FF4D001FF5CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF8942E42107FF4D001FF5CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF8942EB21080170001FF5CF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		EF8942D72107FF4C001FF5CF /* GameOfChats */ = {
 			isa = PBXGroup;
 			children = (
+				EF8942EA2108013A001FF5CF /* Controller */,
 				EF8942D82107FF4C001FF5CF /* AppDelegate.swift */,
 				EF8942DA2107FF4C001FF5CF /* ViewController.swift */,
 				EF8942DC2107FF4C001FF5CF /* Main.storyboard */,
@@ -62,6 +65,14 @@
 				EF8942E42107FF4D001FF5CF /* Info.plist */,
 			);
 			path = GameOfChats;
+			sourceTree = "<group>";
+		};
+		EF8942EA2108013A001FF5CF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				EF8942EB21080170001FF5CF /* LoginViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,6 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF8942EC21080170001FF5CF /* LoginViewController.swift in Sources */,
 				EF8942DB2107FF4C001FF5CF /* ViewController.swift in Sources */,
 				EF8942D92107FF4C001FF5CF /* AppDelegate.swift in Sources */,
 			);

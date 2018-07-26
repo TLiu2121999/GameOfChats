@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginViewController: UIViewController {
     
@@ -19,12 +20,14 @@ class LoginViewController: UIViewController {
         return inputContainerView
     }()
     
-    let registerButton: UIButton = {
+    lazy var registerButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(r: 80, g: 101, b: 161)
         button.setTitle("Register", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        
+        button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
         return button
     }()
     
@@ -52,6 +55,7 @@ class LoginViewController: UIViewController {
     let passwordTextField: UITextField = {
         let field = UITextField()
         field.placeholder = "Password"
+        field.isSecureTextEntry = true
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -87,6 +91,30 @@ class LoginViewController: UIViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    @objc func handleRegister() {
+        
+        guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else { return }
+
+
+        Auth.auth().createUser(withEmail: email, password: password, completion: {
+            (authResult, error) in
+            if error != nil {
+                return
+            }
+            guard let uid = authResult?.user.uid else { return }
+            let ref = Database.database().reference()
+            let usersRed = ref.child("users").child(uid)
+            let values = ["name": name, "email": email]
+            usersRed.updateChildValues(values, withCompletionBlock: { (error, ref) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                print("Success!!!!!")
+            })
+        })
     }
     
     func setupProfileImageView() {

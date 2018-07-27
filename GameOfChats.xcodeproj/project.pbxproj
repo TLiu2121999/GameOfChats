@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		070400FA58EC1FC265D6FC8D /* Pods_GameOfChats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DEB8F2B8D34A65C5E940F7 /* Pods_GameOfChats.framework */; };
 		EF8942D92107FF4C001FF5CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942D82107FF4C001FF5CF /* AppDelegate.swift */; };
-		EF8942DB2107FF4C001FF5CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942DA2107FF4C001FF5CF /* ViewController.swift */; };
+		EF8942DB2107FF4C001FF5CF /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942DA2107FF4C001FF5CF /* MessagesViewController.swift */; };
 		EF8942DE2107FF4C001FF5CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF8942DC2107FF4C001FF5CF /* Main.storyboard */; };
 		EF8942E02107FF4D001FF5CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF8942DF2107FF4D001FF5CF /* Assets.xcassets */; };
 		EF8942E32107FF4D001FF5CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF8942E12107FF4D001FF5CF /* LaunchScreen.storyboard */; };
 		EF8942EC21080170001FF5CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942EB21080170001FF5CF /* LoginViewController.swift */; };
 		EF8942EE2108FFB6001FF5CF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EF8942ED2108FFB6001FF5CF /* GoogleService-Info.plist */; };
+		EFC23A6C210A91360087056D /* NewMessageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC23A6B210A91360087056D /* NewMessageTableViewController.swift */; };
+		EFC23A6F210A997D0087056D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC23A6E210A997D0087056D /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,13 +25,15 @@
 		A9DEB8F2B8D34A65C5E940F7 /* Pods_GameOfChats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GameOfChats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8942D52107FF4C001FF5CF /* GameOfChats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameOfChats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8942D82107FF4C001FF5CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EF8942DA2107FF4C001FF5CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EF8942DA2107FF4C001FF5CF /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		EF8942DD2107FF4C001FF5CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EF8942DF2107FF4D001FF5CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF8942E22107FF4D001FF5CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF8942E42107FF4D001FF5CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF8942EB21080170001FF5CF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		EF8942ED2108FFB6001FF5CF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EFC23A6B210A91360087056D /* NewMessageTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageTableViewController.swift; sourceTree = "<group>"; };
+		EFC23A6E210A997D0087056D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +59,7 @@
 		EF8942CC2107FF4C001FF5CF = {
 			isa = PBXGroup;
 			children = (
+				EFC23A6D210A995B0087056D /* Model */,
 				EF8942D72107FF4C001FF5CF /* GameOfChats */,
 				EF8942D62107FF4C001FF5CF /* Products */,
 				F6BD5AE8FA5B464292A3736B /* Pods */,
@@ -87,10 +92,19 @@
 		EF8942EA2108013A001FF5CF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				EF8942DA2107FF4C001FF5CF /* ViewController.swift */,
+				EF8942DA2107FF4C001FF5CF /* MessagesViewController.swift */,
 				EF8942EB21080170001FF5CF /* LoginViewController.swift */,
+				EFC23A6B210A91360087056D /* NewMessageTableViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		EFC23A6D210A995B0087056D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EFC23A6E210A997D0087056D /* User.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		F6BD5AE8FA5B464292A3736B /* Pods */ = {
@@ -221,8 +235,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFC23A6C210A91360087056D /* NewMessageTableViewController.swift in Sources */,
 				EF8942EC21080170001FF5CF /* LoginViewController.swift in Sources */,
-				EF8942DB2107FF4C001FF5CF /* ViewController.swift in Sources */,
+				EF8942DB2107FF4C001FF5CF /* MessagesViewController.swift in Sources */,
+				EFC23A6F210A997D0087056D /* User.swift in Sources */,
 				EF8942D92107FF4C001FF5CF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,7 +386,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = GameOfChats/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tongtong.TestApp-One.GameOfChats";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -385,7 +404,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = GameOfChats/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tongtong.TestApp-One.GameOfChats";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

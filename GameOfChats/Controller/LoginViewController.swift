@@ -67,12 +67,14 @@ class LoginViewController: UIViewController {
         return view
     }()
     
-    let profileImageView: UIImageView = {
+    lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "wolf")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleToFill
-        //imageView.isHidden = UIDevice.current.orientation.isLandscape ? true : false
+        
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileIamgeView)))
+        imageView.isUserInteractionEnabled = true
         
         return imageView
     }()
@@ -107,80 +109,6 @@ class LoginViewController: UIViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
-    }
-    
-    @objc func handleLoginRegisterChange() {
-        let title = loginRegisterSegmentControl.titleForSegment(at: loginRegisterSegmentControl.selectedSegmentIndex)
-        loginRegisterButton.setTitle(title, for: .normal)
-       
-        // set up whole input container height
-        inputContainerViewHeightConstraint?.constant = loginRegisterSegmentControl.selectedSegmentIndex == 0 ? 100 : 150
-        
-        // set up nameTextField
-        nameTextFieldHeightAnchorConstraint?.isActive = false
-        nameTextFieldHeightAnchorConstraint = loginRegisterSegmentControl.selectedSegmentIndex == 0 ? nameTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor, multiplier: 0) : nameTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor, multiplier: 1/3)
-        nameTextFieldHeightAnchorConstraint?.isActive = true
-        
-        // set up emailTextField
-        emailTextFieldHeightAnchorConstraint?.isActive = false
-        emailTextFieldHeightAnchorConstraint = loginRegisterSegmentControl.selectedSegmentIndex == 0 ? emailTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor, multiplier: 1/2) : emailTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor, multiplier: 1/3)
-        emailTextFieldHeightAnchorConstraint?.isActive = true
-        
-        // set up passwordTextField
-        passwordTextFieldHeightAnchorConstraint?.isActive = false
-        passwordTextFieldHeightAnchorConstraint = loginRegisterSegmentControl.selectedSegmentIndex == 0 ? passwordTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor, multiplier: 1/2) : passwordTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor, multiplier: 1/3)
-        passwordTextFieldHeightAnchorConstraint?.isActive = true
-    }
-    
-    @objc func handleLogRegister() {
-        if loginRegisterSegmentControl.selectedSegmentIndex == 0 {
-            handleLogin()
-        } else {
-            handleRegister()
-        }
-    }
-    
-    @objc func handleLogin() {
-        guard let email = emailTextField.text, let password = passwordTextField.text else {
-            print("Email and Password can't be nil! ")
-            return
-        }
-        Auth.auth().signIn(withEmail: email, password: password) { (authDataResult, error) in
-            if error != nil {
-                return
-            }
-            self.dismiss(animated: true, completion: nil)
-            print("Login Succeed!")
-        }
-        
-    }
-    
-    @objc func handleRegister() {
-        
-        guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
-            print("Name and Password can't be nil! ")
-            return
-        }
-        
-        Auth.auth().createUser(withEmail: email, password: password, completion: {
-            (authResult, error) in
-            if error != nil {
-                return
-            }
-            guard let uid = authResult?.user.uid else { return }
-            let ref = Database.database().reference()
-            let usersRed = ref.child("users").child(uid)
-            let values = ["name": name, "email": email]
-            usersRed.updateChildValues(values, withCompletionBlock: { (error, ref) in
-                if error != nil {
-                    print(error!)
-                    return
-                }
-                
-                self.dismiss(animated: true, completion: nil)
-                print("Registration Succeed!")
-            })
-        })
     }
     
     func setupProfileImageView() {

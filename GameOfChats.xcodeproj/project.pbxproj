@@ -18,6 +18,7 @@
 		EFC23A6C210A91360087056D /* NewMessageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC23A6B210A91360087056D /* NewMessageTableViewController.swift */; };
 		EFC23A6F210A997D0087056D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC23A6E210A997D0087056D /* User.swift */; };
 		EFC23A71210AA8B50087056D /* LoginViewController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC23A70210AA8B50087056D /* LoginViewController+handlers.swift */; };
+		EFC23A74210FD65E0087056D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC23A73210FD65E0087056D /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		EFC23A6B210A91360087056D /* NewMessageTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageTableViewController.swift; sourceTree = "<group>"; };
 		EFC23A6E210A997D0087056D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EFC23A70210AA8B50087056D /* LoginViewController+handlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewController+handlers.swift"; sourceTree = "<group>"; };
+		EFC23A73210FD65E0087056D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 		EF8942CC2107FF4C001FF5CF = {
 			isa = PBXGroup;
 			children = (
+				EFC23A72210FD6480087056D /* Helpers */,
 				EFC23A6D210A995B0087056D /* Model */,
 				EF8942D72107FF4C001FF5CF /* GameOfChats */,
 				EF8942D62107FF4C001FF5CF /* Products */,
@@ -108,6 +111,14 @@
 				EFC23A6E210A997D0087056D /* User.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		EFC23A72210FD6480087056D /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				EFC23A73210FD65E0087056D /* Extensions.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		F6BD5AE8FA5B464292A3736B /* Pods */ = {
@@ -244,6 +255,7 @@
 				EF8942DB2107FF4C001FF5CF /* MessagesViewController.swift in Sources */,
 				EFC23A6F210A997D0087056D /* User.swift in Sources */,
 				EF8942D92107FF4C001FF5CF /* AppDelegate.swift in Sources */,
+				EFC23A74210FD65E0087056D /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

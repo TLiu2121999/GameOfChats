@@ -9,16 +9,16 @@
 /* Begin PBXBuildFile section */
 		070400FA58EC1FC265D6FC8D /* Pods_GameOfChats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DEB8F2B8D34A65C5E940F7 /* Pods_GameOfChats.framework */; };
 		EF8942D92107FF4C001FF5CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942D82107FF4C001FF5CF /* AppDelegate.swift */; };
-		EF8942DB2107FF4C001FF5CF /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942DA2107FF4C001FF5CF /* MessagesViewController.swift */; };
 		EF8942DE2107FF4C001FF5CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF8942DC2107FF4C001FF5CF /* Main.storyboard */; };
 		EF8942E02107FF4D001FF5CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF8942DF2107FF4D001FF5CF /* Assets.xcassets */; };
 		EF8942E32107FF4D001FF5CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF8942E12107FF4D001FF5CF /* LaunchScreen.storyboard */; };
-		EF8942EC21080170001FF5CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942EB21080170001FF5CF /* LoginViewController.swift */; };
 		EF8942EE2108FFB6001FF5CF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EF8942ED2108FFB6001FF5CF /* GoogleService-Info.plist */; };
 		EFC23A6C210A91360087056D /* NewMessageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC23A6B210A91360087056D /* NewMessageTableViewController.swift */; };
 		EFC23A6F210A997D0087056D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC23A6E210A997D0087056D /* User.swift */; };
 		EFC23A71210AA8B50087056D /* LoginViewController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC23A70210AA8B50087056D /* LoginViewController+handlers.swift */; };
 		EFC23A74210FD65E0087056D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC23A73210FD65E0087056D /* Extensions.swift */; };
+		EFC23A75210FE06E0087056D /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942DA2107FF4C001FF5CF /* MessagesViewController.swift */; };
+		EFC23A76210FE1290087056D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942EB21080170001FF5CF /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -249,10 +249,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFC23A76210FE1290087056D /* LoginViewController.swift in Sources */,
+				EFC23A75210FE06E0087056D /* MessagesViewController.swift in Sources */,
 				EFC23A6C210A91360087056D /* NewMessageTableViewController.swift in Sources */,
 				EFC23A71210AA8B50087056D /* LoginViewController+handlers.swift in Sources */,
-				EF8942EC21080170001FF5CF /* LoginViewController.swift in Sources */,
-				EF8942DB2107FF4C001FF5CF /* MessagesViewController.swift in Sources */,
 				EFC23A6F210A997D0087056D /* User.swift in Sources */,
 				EF8942D92107FF4C001FF5CF /* AppDelegate.swift in Sources */,
 				EFC23A74210FD65E0087056D /* Extensions.swift in Sources */,

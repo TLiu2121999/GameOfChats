@@ -138,6 +138,7 @@ class LoginViewController: UIViewController {
     var nameTextFieldHeightAnchorConstraint: NSLayoutConstraint?
     var emailTextFieldHeightAnchorConstraint: NSLayoutConstraint?
     var passwordTextFieldHeightAnchorConstraint: NSLayoutConstraint?
+    var messagesViewController: MessagesViewController?
     
     func setupInputContainerView() {
         inputContainerView.addSubview(nameTextField)

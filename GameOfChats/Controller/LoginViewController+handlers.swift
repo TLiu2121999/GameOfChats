@@ -29,6 +29,7 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
             if error != nil {
                 return
             }
+            self.messagesViewController?.fetchUserAndSetupNavBarTitle()
             self.dismiss(animated: true, completion: nil)
             print("Login Succeed!")
         }
@@ -50,8 +51,7 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
             
             let imageName = UUID().uuidString
             let storageRef = Storage.storage().reference().child("\(imageName).jpg")
-            
-            if let uploadData = UIImagePNGRepresentation(self.profileImageView.image!) {
+            if let profileImage = self.profileImageView.image, let uploadData = UIImageJPEGRepresentation(profileImage, 0.1) {
                 storageRef.putData(uploadData, metadata: nil, completion: { (metaData, error) in
                     if error != nil {
                         return
@@ -80,7 +80,7 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
                 print(error!)
                 return
             }
-            
+            self.messagesViewController?.fetchUserAndSetupNavBarTitle()
             self.dismiss(animated: true, completion: nil)
             print("Registration Succeed!")
         })

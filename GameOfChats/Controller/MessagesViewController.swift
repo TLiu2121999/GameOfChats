@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MessagesViewController.swift
 //  GameOfChats
 //
 //  Created by Tongtong Liu on 7/24/18.
@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ViewController: UITableViewController {
+class MessagesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,18 +27,29 @@ class ViewController: UITableViewController {
     }
     
     func checkIfUserLoggedIn() {
-        guard let uid = Auth.auth().currentUser?.uid else {
+        guard (Auth.auth().currentUser?.uid) != nil else {
             perform(#selector(handleLogout), with: nil, afterDelay: 0)
             return
         }
-        
+        fetchUserAndSetupNavBarTitle()
+    }
+    
+    func fetchUserAndSetupNavBarTitle() {
+        guard let uid =  Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("users").child(uid).observe(.value) { (dataSnapshot) in
             if let dict = dataSnapshot.value as? [String: Any] {
                 self.navigationItem.title = dict["name"] as? String
+                let user = User()
+                user.setValuesForKeys(dict)
+                self.setupNavBarWithUser(user: user)
             }
             
             print(dataSnapshot)
         }
+    }
+    
+    func setupNavBarWithUser(user: User){
+        self.navigationItem.title = user.name
     }
     
     @objc func handleLogout() {
@@ -49,6 +60,7 @@ class ViewController: UITableViewController {
         }
         
         let loginViewController = LoginViewController()
+        loginViewController.messagesViewController = self
         present(loginViewController, animated: true)
     }
 }

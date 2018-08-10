@@ -19,6 +19,7 @@
 		EFC23A74210FD65E0087056D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC23A73210FD65E0087056D /* Extensions.swift */; };
 		EFC23A75210FE06E0087056D /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942DA2107FF4C001FF5CF /* MessagesViewController.swift */; };
 		EFC23A76210FE1290087056D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942EB21080170001FF5CF /* LoginViewController.swift */; };
+		EFD0609C211D435600050474 /* ChatLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD0609B211D435600050474 /* ChatLogViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		EFC23A6E210A997D0087056D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		EFC23A70210AA8B50087056D /* LoginViewController+handlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewController+handlers.swift"; sourceTree = "<group>"; };
 		EFC23A73210FD65E0087056D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		EFD0609B211D435600050474 /* ChatLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 		EF8942EA2108013A001FF5CF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				EFD0609B211D435600050474 /* ChatLogViewController.swift */,
 				EF8942DA2107FF4C001FF5CF /* MessagesViewController.swift */,
 				EF8942EB21080170001FF5CF /* LoginViewController.swift */,
 				EFC23A6B210A91360087056D /* NewMessageTableViewController.swift */,
@@ -256,6 +259,7 @@
 				EFC23A6F210A997D0087056D /* User.swift in Sources */,
 				EF8942D92107FF4C001FF5CF /* AppDelegate.swift in Sources */,
 				EFC23A74210FD65E0087056D /* Extensions.swift in Sources */,
+				EFD0609C211D435600050474 /* ChatLogViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

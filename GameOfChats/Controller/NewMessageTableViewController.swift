@@ -13,6 +13,7 @@ class NewMessageTableViewController: UITableViewController {
 
     let cellId = "cellId"
     var users = [User]()
+    var messagesViewController: MessagesViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,7 @@ class NewMessageTableViewController: UITableViewController {
             if let dict = dataSnapshot.value as? [String: Any] {
                 let user = User()
                 
+                user.id = dataSnapshot.key
                 user.email = dict["email"] as? String
                 user.name = dict["name"] as? String
                 user.profileImageURL = dict["profileIamgeURL"] as? String
@@ -60,6 +62,13 @@ class NewMessageTableViewController: UITableViewController {
             cell.profileImageView.loadImageUsingCacheWithURLString(urlString: profileImageURL)
         }
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        dismiss(animated: true)
+        let user = users[indexPath.row]
+        self.messagesViewController?.showChatControllerForUser(user)
+        
     }
 }
 

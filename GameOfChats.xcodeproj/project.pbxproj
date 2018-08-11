@@ -20,6 +20,7 @@
 		EFC23A75210FE06E0087056D /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942DA2107FF4C001FF5CF /* MessagesViewController.swift */; };
 		EFC23A76210FE1290087056D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942EB21080170001FF5CF /* LoginViewController.swift */; };
 		EFD0609C211D435600050474 /* ChatLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD0609B211D435600050474 /* ChatLogViewController.swift */; };
+		EFF8E4A5211E9B79006136DA /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8E4A4211E9B79006136DA /* Message.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		EFC23A70210AA8B50087056D /* LoginViewController+handlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewController+handlers.swift"; sourceTree = "<group>"; };
 		EFC23A73210FD65E0087056D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EFD0609B211D435600050474 /* ChatLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogViewController.swift; sourceTree = "<group>"; };
+		EFF8E4A4211E9B79006136DA /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				EFC23A6E210A997D0087056D /* User.swift */,
+				EFF8E4A4211E9B79006136DA /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				EFC23A76210FE1290087056D /* LoginViewController.swift in Sources */,
 				EFC23A75210FE06E0087056D /* MessagesViewController.swift in Sources */,
 				EFC23A6C210A91360087056D /* NewMessageTableViewController.swift in Sources */,
+				EFF8E4A5211E9B79006136DA /* Message.swift in Sources */,
 				EFC23A71210AA8B50087056D /* LoginViewController+handlers.swift in Sources */,
 				EFC23A6F210A997D0087056D /* User.swift in Sources */,
 				EF8942D92107FF4C001FF5CF /* AppDelegate.swift in Sources */,

@@ -10,6 +10,11 @@ import WebKit
 import Firebase
 
 class ChatLogViewController: UICollectionViewController, UITextFieldDelegate {
+    var user: User? {
+        didSet {
+            navigationItem.title = user?.name
+        }
+    }
     
     lazy var inputTextField: UITextField = {
         let inputTextField = UITextField()
@@ -22,7 +27,6 @@ class ChatLogViewController: UICollectionViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Chat Log Controller"
         collectionView?.backgroundColor = .white
         setupTextView()
     }
@@ -75,7 +79,10 @@ class ChatLogViewController: UICollectionViewController, UITextFieldDelegate {
     @objc func handleSendMessage() {
         let ref = Database.database().reference().child("messages")
         let childRef = ref.childByAutoId()
-        let values = ["text": inputTextField.text]
+        let toId = user?.id!
+        let fromId = Auth.auth().currentUser?.uid
+        let timeStamp: String = String(Int(NSDate().timeIntervalSince1970))
+        let values : [String : Any] = ["text" : inputTextField.text, "toId" : toId, "fromId" : fromId, "timeStamp" : timeStamp]
         childRef.updateChildValues(values as! [String : String])
     }
     

@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     let inputContainerView: UIView = {
         let inputContainerView = UIView()
@@ -52,11 +52,12 @@ class LoginViewController: UIViewController {
         return field
     }()
     
-    let passwordTextField: UITextField = {
+    lazy var passwordTextField: UITextField = {
         let field = UITextField()
         field.placeholder = "Password"
         field.isSecureTextEntry = true
         field.translatesAutoresizingMaskIntoConstraints = false
+        field.delegate = self
         return field
     }()
     
@@ -200,6 +201,10 @@ class LoginViewController: UIViewController {
         }
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        handleLogin()
+        return true
+    }
 }
 
 extension UIColor {

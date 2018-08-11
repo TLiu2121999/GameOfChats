@@ -11,6 +11,7 @@ import Firebase
 
 class MessagesViewController: UITableViewController {
 
+    var messages = [Message]()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -18,9 +19,8 @@ class MessagesViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "new_message_icon"), style: .plain, target: self, action: #selector(handleNewMessage))
         
         checkIfUserLoggedIn()
+        observeMessage()
     }
-    
-    
     
     func checkIfUserLoggedIn() {
         guard (Auth.auth().currentUser?.uid) != nil else {
@@ -30,11 +30,28 @@ class MessagesViewController: UITableViewController {
         fetchUserAndSetupNavBarTitle()
     }
     
+    func observeMessage() {
+        let ref = Database.database().reference().child("messages")
+        ref.observe(.childAdded) { (dataSnapshot) in
+            if let dict = dataSnapshot.value as? [String: String] {
+                let message = Message()
+                message.fromId = dict["fromId"]
+                message.toId = dict["toId"]
+                message.text = dict["text"]
+                message.timeStamp = dict["timeStamp"]
+                self.messages.append(message)
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
     func fetchUserAndSetupNavBarTitle() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("users").child(uid).observe(.value) { (dataSnapshot) in
             if let dict = dataSnapshot.value as? [String: Any] {
-                //self.navigationItem.title = dict["name"] as? String
                 let user = User()
                 
                 user.email = dict["email"] as? String
@@ -98,20 +115,20 @@ class MessagesViewController: UITableViewController {
 
             ])
 
-        titleView.addTarget(self, action: #selector(showChatController), for: .touchUpInside)
         self.navigationItem.titleView = titleView
         
     }
     
     
-    @objc func showChatController() {
-        
+    @objc func showChatControllerForUser(_ user: User) {
         let vc = ChatLogViewController(collectionViewLayout: UICollectionViewLayout())
         navigationController?.pushViewController(vc, animated: true)
+        vc.user = user
     }
     
     @objc func handleNewMessage() {
         let newMessageVC = NewMessageTableViewController()
+        newMessageVC.messagesViewController = self
         let navController = UINavigationController(rootViewController: newMessageVC)
         present(navController, animated: true, completion: nil)
     }
@@ -126,6 +143,18 @@ class MessagesViewController: UITableViewController {
         let loginViewController = LoginViewController()
         loginViewController.messagesViewController = self
         present(loginViewController, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return messages.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
+        let message = messages[indexPath.row]
+        cell.textLabel?.text = message.text
+        cell.detailTextLabel?.text = message.toId
+        return cell
     }
 }
 

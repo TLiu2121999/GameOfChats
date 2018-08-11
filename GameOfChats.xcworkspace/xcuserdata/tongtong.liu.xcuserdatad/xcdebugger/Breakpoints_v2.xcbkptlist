@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GameOfChats/Controller/LoginViewController.swift"
-            timestampString = "555569742.14"
+            timestampString = "555654915.274678"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "profileImageView"
             landmarkType = "24">
          </BreakpointContent>

@@ -20,6 +20,7 @@
 		EFC23A75210FE06E0087056D /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942DA2107FF4C001FF5CF /* MessagesViewController.swift */; };
 		EFC23A76210FE1290087056D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942EB21080170001FF5CF /* LoginViewController.swift */; };
 		EFD0609C211D435600050474 /* ChatLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD0609B211D435600050474 /* ChatLogViewController.swift */; };
+		EFD8C7012127914E005BF5E9 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD8C7002127914E005BF5E9 /* UserCell.swift */; };
 		EFF8E4A5211E9B79006136DA /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8E4A4211E9B79006136DA /* Message.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		EFC23A70210AA8B50087056D /* LoginViewController+handlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewController+handlers.swift"; sourceTree = "<group>"; };
 		EFC23A73210FD65E0087056D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EFD0609B211D435600050474 /* ChatLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogViewController.swift; sourceTree = "<group>"; };
+		EFD8C7002127914E005BF5E9 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		EFF8E4A4211E9B79006136DA /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,6 +69,7 @@
 		EF8942CC2107FF4C001FF5CF = {
 			isa = PBXGroup;
 			children = (
+				EFD8C6FF21279123005BF5E9 /* View */,
 				EFC23A72210FD6480087056D /* Helpers */,
 				EFC23A6D210A995B0087056D /* Model */,
 				EF8942D72107FF4C001FF5CF /* GameOfChats */,
@@ -125,6 +128,14 @@
 				EFC23A73210FD65E0087056D /* Extensions.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		EFD8C6FF21279123005BF5E9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EFD8C7002127914E005BF5E9 /* UserCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		F6BD5AE8FA5B464292A3736B /* Pods */ = {
@@ -263,6 +274,7 @@
 				EFC23A6F210A997D0087056D /* User.swift in Sources */,
 				EF8942D92107FF4C001FF5CF /* AppDelegate.swift in Sources */,
 				EFC23A74210FD65E0087056D /* Extensions.swift in Sources */,
+				EFD8C7012127914E005BF5E9 /* UserCell.swift in Sources */,
 				EFD0609C211D435600050474 /* ChatLogViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

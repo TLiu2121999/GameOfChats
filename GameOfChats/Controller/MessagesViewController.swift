@@ -12,9 +12,11 @@ import Firebase
 class MessagesViewController: UITableViewController {
 
     var messages = [Message]()
+    let cellId = "cellId"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "new_message_icon"), style: .plain, target: self, action: #selector(handleNewMessage))
         
@@ -59,9 +61,7 @@ class MessagesViewController: UITableViewController {
                 user.profileImageURL = dict["profileIamgeURL"] as? String
                 
                 self.setupNavBarWithUser(user)
-            }
-            
-            print(dataSnapshot)
+            }            
         }
     }
     
@@ -150,11 +150,16 @@ class MessagesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! UserCell
         let message = messages[indexPath.row]
-        cell.textLabel?.text = message.text
-        cell.detailTextLabel?.text = message.toId
+        
+        cell.message = message
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 72
     }
 }
 

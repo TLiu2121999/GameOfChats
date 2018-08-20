@@ -12,6 +12,6 @@ class Message: NSObject {
 
     var fromId: String?
     var toId: String?
-    var timeStamp: String?
+    var timeStamp: String!
     var text: String?
 }

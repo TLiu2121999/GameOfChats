@@ -67,8 +67,9 @@ class NewMessageTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         dismiss(animated: true)
         let user = users[indexPath.row]
-        self.messagesViewController?.showChatControllerForUser(user)
-        
+        if Auth.auth().currentUser?.uid != user.id {
+            self.messagesViewController?.showChatControllerForUser(user)
+        }
     }
 }
 

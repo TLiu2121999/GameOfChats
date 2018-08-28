@@ -31,11 +31,11 @@ class UserCell: UITableViewCell {
             
             self.detailTextLabel?.text = message?.text
             
-            
-            
             guard let timeStr = message?.timeStamp else { return }
             let timeDate = NSDate(timeIntervalSince1970: Double(timeStr)!)
-            timeLabel.text = String(timeDate)
+            let dataFormatter = DateFormatter()
+            dataFormatter.dateFormat = "hh:mm:ss a"
+            timeLabel.text = dataFormatter.string(from: timeDate as Date)
         }
     }
     

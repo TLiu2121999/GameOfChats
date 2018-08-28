@@ -27,6 +27,7 @@ class ChatLogViewController: UICollectionViewController, UITextFieldDelegate, UI
         return inputTextField
     }()
     
+    
     func observeMessages() {
         guard let uid = Auth.auth().currentUser?.uid else {
             return
@@ -70,9 +71,31 @@ class ChatLogViewController: UICollectionViewController, UITextFieldDelegate, UI
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ChatMessageCell
-        cell.textView.text = messages[indexPath.row].text
+        let message = messages[indexPath.row]
+        cell.textView.text = message.text
         cell.bubbleViewWidthAnchor?.constant = estimateFrameForText(text: cell.textView.text).width + 32
+        setupCell(cell: cell, messgae: message)
         return cell
+    }
+    
+    private func setupCell(cell: ChatMessageCell, messgae: Message) {
+        if let profileImageUrl = self.user?.profileImageURL {
+            cell.profileImageView.loadImageUsingCacheWithURLString(urlString: profileImageUrl)
+        }
+        
+        if Auth.auth().currentUser?.uid == messgae.fromId{
+            cell.bubbleView.backgroundColor = ChatMessageCell.blueColor
+            cell.textView.textColor = .white
+            cell.profileImageView.isHidden = true
+            cell.bubbleViewRightAnchor?.isActive = true
+            cell.bubbleViewLeftAnchor?.isActive = false
+        } else {
+            cell.bubbleView.backgroundColor = ChatMessageCell.grayColor
+            cell.textView.textColor = .black
+            cell.bubbleViewRightAnchor?.isActive = false
+            cell.bubbleViewLeftAnchor?.isActive = true
+            cell.profileImageView.isHidden = false
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

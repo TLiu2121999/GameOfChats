@@ -9,6 +9,8 @@
 import UIKit
 class ChatMessageCell: UICollectionViewCell {
     var bubbleViewWidthAnchor: NSLayoutConstraint?
+    var bubbleViewLeftAnchor: NSLayoutConstraint?
+    var bubbleViewRightAnchor: NSLayoutConstraint?
     
     let textView: UITextView = {
         let tv = UITextView()
@@ -19,19 +21,33 @@ class ChatMessageCell: UICollectionViewCell {
         return tv
     }()
     
+    static let blueColor = UIColor(r: 0, g: 134, b: 249)
+    static let grayColor = UIColor(r: 240, g: 240, b: 240)
+    
     let bubbleView: UIView = {
        let bubbleView = UIView()
-        bubbleView.backgroundColor = UIColor(r: 0, g: 134, b: 249)
+        bubbleView.backgroundColor = blueColor
         bubbleView.translatesAutoresizingMaskIntoConstraints = false
         bubbleView.layer.cornerRadius = 16
         bubbleView.layer.masksToBounds = true
         return bubbleView
     }()
     
+    let profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = 16
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "nedstark")
+        return imageView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(bubbleView)
         addSubview(textView)
+        addSubview(profileImageView)
         setupConstraints()
     }
     
@@ -41,8 +57,16 @@ class ChatMessageCell: UICollectionViewCell {
     
     func setupConstraints() {
         bubbleViewWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)
+        bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8)
+        bubbleViewLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8)
         NSLayoutConstraint.activate([
-            bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8),
+            profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8),
+            profileImageView.topAnchor.constraint(equalTo: self.topAnchor),
+            profileImageView.widthAnchor.constraint(equalToConstant: 32),
+            profileImageView.heightAnchor.constraint(equalToConstant: 32),
+            
+            bubbleViewRightAnchor!,
+            //bubbleViewLeftAnchor!,
             bubbleView.topAnchor.constraint(equalTo: self.topAnchor),
             bubbleView.heightAnchor.constraint(equalTo: self.heightAnchor),
             bubbleViewWidthAnchor!,
@@ -51,6 +75,8 @@ class ChatMessageCell: UICollectionViewCell {
             textView.topAnchor.constraint(equalTo: self.topAnchor),
             textView.heightAnchor.constraint(equalTo: self.heightAnchor),
             textView.rightAnchor.constraint(equalTo: bubbleView.rightAnchor)
+            
+            
         ])
     }
 }

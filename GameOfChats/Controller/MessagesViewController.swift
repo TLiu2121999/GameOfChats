@@ -14,6 +14,7 @@ class MessagesViewController: UITableViewController {
     var messages = [Message]()
     var messagesDict = [String: Message]()
     let cellId = "cellId"
+    var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,36 +59,18 @@ class MessagesViewController: UITableViewController {
                         })
                     }
                     
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
+                    self.timer?.invalidate()
+                    self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(handleReloadTable), userInfo: nil, repeats: false)
+                    
                 }
             })
         }
     }
     
-    func observeMessage() {
-        let ref = Database.database().reference().child("messages")
-        ref.observe(.childAdded) { (dataSnapshot) in
-            if let dict = dataSnapshot.value as? [String: String] {
-                let message = Message()
-                message.fromId = dict["fromId"]
-                message.toId = dict["toId"]
-                message.text = dict["text"]
-                message.timeStamp = dict["timeStamp"]
-            
-                if let toId = message.toId {
-                    self.messagesDict[toId] = message
-                    self.messages = Array(self.messagesDict.values)
-                    self.messages.sort(by: { (m1, m2) -> Bool in
-                        return Int(m1.timeStamp)! > Int(m2.timeStamp)!
-                    })
-                }
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
+    
+    func handleReloadTable() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
     

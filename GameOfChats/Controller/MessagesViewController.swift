@@ -165,7 +165,7 @@ class MessagesViewController: UITableViewController {
     
     
     @objc func showChatControllerForUser(_ user: User) {
-        let vc = ChatLogViewController(collectionViewLayout: UICollectionViewLayout())
+        let vc = ChatLogViewController(collectionViewLayout: UICollectionViewFlowLayout())
         navigationController?.pushViewController(vc, animated: true)
         vc.user = user
     }
@@ -204,6 +204,22 @@ class MessagesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 72
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let message = messages[indexPath.row]
+        guard let chatPartnerId = message.chatPartnerId() else { return }
+        let ref = Database.database().reference().child("users").child(chatPartnerId)
+       
+        ref.observeSingleEvent(of: .value) { (snapshot) in
+            guard let dict = snapshot.value as? [String: Any] else { return }
+            let user = User()
+            user.email = dict["email"] as? String
+            user.name = dict["name"] as? String
+            user.profileImageURL = dict["profileIamgeURL"] as? String
+            user.id = chatPartnerId
+            self.showChatControllerForUser(user)
+        }
     }
 }
 

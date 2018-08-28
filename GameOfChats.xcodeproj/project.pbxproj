@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		070400FA58EC1FC265D6FC8D /* Pods_GameOfChats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9DEB8F2B8D34A65C5E940F7 /* Pods_GameOfChats.framework */; };
+		EF39673F2135F241005F6884 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF39673E2135F241005F6884 /* ChatMessageCell.swift */; };
 		EF8942D92107FF4C001FF5CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8942D82107FF4C001FF5CF /* AppDelegate.swift */; };
 		EF8942DE2107FF4C001FF5CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF8942DC2107FF4C001FF5CF /* Main.storyboard */; };
 		EF8942E02107FF4D001FF5CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF8942DF2107FF4D001FF5CF /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 		10FDA8A73262A5F42C1EE7E6 /* Pods-GameOfChats.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GameOfChats.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GameOfChats/Pods-GameOfChats.debug.xcconfig"; sourceTree = "<group>"; };
 		9009B7AD6BCFE4A5FC4776BE /* Pods-GameOfChats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GameOfChats.release.xcconfig"; path = "Pods/Target Support Files/Pods-GameOfChats/Pods-GameOfChats.release.xcconfig"; sourceTree = "<group>"; };
 		A9DEB8F2B8D34A65C5E940F7 /* Pods_GameOfChats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GameOfChats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF39673E2135F241005F6884 /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		EF8942D52107FF4C001FF5CF /* GameOfChats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameOfChats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8942D82107FF4C001FF5CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF8942DA2107FF4C001FF5CF /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				EFD8C7002127914E005BF5E9 /* UserCell.swift */,
+				EF39673E2135F241005F6884 /* ChatMessageCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				EFC23A71210AA8B50087056D /* LoginViewController+handlers.swift in Sources */,
 				EFC23A6F210A997D0087056D /* User.swift in Sources */,
 				EF8942D92107FF4C001FF5CF /* AppDelegate.swift in Sources */,
+				EF39673F2135F241005F6884 /* ChatMessageCell.swift in Sources */,
 				EFC23A74210FD65E0087056D /* Extensions.swift in Sources */,
 				EFD8C7012127914E005BF5E9 /* UserCell.swift in Sources */,
 				EFD0609C211D435600050474 /* ChatLogViewController.swift in Sources */,

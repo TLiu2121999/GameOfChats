@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "View/UserCell.swift"
-            timestampString = "557172022.6032161"
+            timestampString = "557175266.607857"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
             landmarkName = "message"
             landmarkType = "24">
          </BreakpointContent>

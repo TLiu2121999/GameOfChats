@@ -22,7 +22,7 @@ class MessagesViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "new_message_icon"), style: .plain, target: self, action: #selector(handleNewMessage))
         
         checkIfUserLoggedIn()
-        observeMessage()
+        observeUserMessage()
     }
     
     func checkIfUserLoggedIn() {
@@ -31,6 +31,39 @@ class MessagesViewController: UITableViewController {
             return
         }
         fetchUserAndSetupNavBarTitle()
+    }
+    
+    func observeUserMessage() {
+    
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        let ref = Database.database().reference().child("user-messages").child(uid)
+        ref.observe(.childAdded) { (snapshot) in
+            let messageId = snapshot.key
+            let messageRef = Database.database().reference().child("messages").child(messageId)
+            messageRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                if let dict = snapshot.value as? [String: String] {
+                    let message = Message()
+                    message.fromId = dict["fromId"]
+                    message.toId = dict["toId"]
+                    message.text = dict["text"]
+                    message.timeStamp = dict["timeStamp"]
+                    
+                    if let toId = message.toId {
+                        self.messagesDict[toId] = message
+                        self.messages = Array(self.messagesDict.values)
+                        self.messages.sort(by: { (m1, m2) -> Bool in
+                            return Int(m1.timeStamp)! > Int(m2.timeStamp)!
+                        })
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                }
+            })
+        }
     }
     
     func observeMessage() {
@@ -42,8 +75,7 @@ class MessagesViewController: UITableViewController {
                 message.toId = dict["toId"]
                 message.text = dict["text"]
                 message.timeStamp = dict["timeStamp"]
-                //self.messages.append(message)
-                
+            
                 if let toId = message.toId {
                     self.messagesDict[toId] = message
                     self.messages = Array(self.messagesDict.values)
@@ -76,8 +108,12 @@ class MessagesViewController: UITableViewController {
     
     
     func setupNavBarWithUser(_ user: User){
-        let titleView = UIButton()
+        messages.removeAll()
+        messagesDict.removeAll()
+        tableView.reloadData()
+        observeUserMessage()
         
+        let titleView = UIButton()
         let containerView = UIView()
         titleView.addSubview(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -86,7 +122,6 @@ class MessagesViewController: UITableViewController {
             containerView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor)
             ])
 
-        
         // Set up ProfileImageView
         let profileImageView = UIImageView()
         containerView.addSubview(profileImageView)

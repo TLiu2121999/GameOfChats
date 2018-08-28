@@ -12,22 +12,7 @@ import Firebase
 class UserCell: UITableViewCell {
     var message: Message? {
         didSet {
-            if let toId = message?.toId {
-                let ref = Database.database().reference().child("users").child(toId)
-                ref.observe(.value) { (dataSnapshot) in
-                    if let dict = dataSnapshot.value as? [String: Any] {
-                        let user = User()
-                        user.email = dict["email"] as? String
-                        user.name = dict["name"] as? String
-                        user.profileImageURL = dict["profileIamgeURL"] as? String
-                        
-                        self.textLabel?.text = user.name
-                        if let profileImageURL = user.profileImageURL {
-                            self.profileImageView.loadImageUsingCacheWithURLString(urlString: profileImageURL)
-                        }
-                    }
-                }
-            }
+            setupNameAndProfileImage()
             
             self.detailTextLabel?.text = message?.text
             
@@ -36,6 +21,32 @@ class UserCell: UITableViewCell {
             let dataFormatter = DateFormatter()
             dataFormatter.dateFormat = "hh:mm:ss a"
             timeLabel.text = dataFormatter.string(from: timeDate as Date)
+        }
+    }
+    
+    private func setupNameAndProfileImage() {
+        let id: String?
+        if message?.fromId == Auth.auth().currentUser?.uid {
+            id = message?.toId
+        } else {
+            id = message?.fromId
+        }
+        
+        if let userId = id {
+            let ref = Database.database().reference().child("users").child(userId)
+            ref.observe(.value) { (dataSnapshot) in
+                if let dict = dataSnapshot.value as? [String: Any] {
+                    let user = User()
+                    user.email = dict["email"] as? String
+                    user.name = dict["name"] as? String
+                    user.profileImageURL = dict["profileIamgeURL"] as? String
+                    
+                    self.textLabel?.text = user.name
+                    if let profileImageURL = user.profileImageURL {
+                        self.profileImageView.loadImageUsingCacheWithURLString(urlString: profileImageURL)
+                    }
+                }
+            }
         }
     }
     
@@ -50,7 +61,6 @@ class UserCell: UITableViewCell {
     
     let timeLabel: UILabel = {
         let timeLable = UILabel()
-        timeLable.text = "HH:MM:SS"
         timeLable.font = UIFont.systemFont(ofSize: 12)
         timeLable.textColor = .lightGray
         timeLable.translatesAutoresizingMaskIntoConstraints = false

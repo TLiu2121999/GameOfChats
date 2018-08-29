@@ -24,8 +24,30 @@ class MessagesViewController: UITableViewController {
         
         checkIfUserLoggedIn()
         observeUserMessage()
+        tableView.allowsMultipleSelectionDuringEditing = true
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let message = messages[indexPath.row]
+        if let chatPartnerId = message.chatPartnerId() {
+            Database.database().reference().child("user-messages").child(uid).child(chatPartnerId).removeValue { (error, databaseReference) in
+                if error != nil {
+                    return
+                }
+                self.messages.remove(at: indexPath.row)
+//                self.messagesDict.removeValue(forKey: chatPartnerId)
+//                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                self.timer?.invalidate()
+                self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+
+            }
+        }
+    }
     func checkIfUserLoggedIn() {
         guard (Auth.auth().currentUser?.uid) != nil else {
             perform(#selector(handleLogout), with: nil, afterDelay: 0)
@@ -70,6 +92,16 @@ class MessagesViewController: UITableViewController {
                 })
             })
             
+        }
+        
+        ref.observe(.childRemoved) { (snapshot) in
+            self.messagesDict.removeValue(forKey: snapshot.key)
+            self.messages = Array(self.messagesDict.values)
+            self.messages.sort(by: { (m1, m2) -> Bool in
+                return Int(m1.timeStamp)! > Int(m2.timeStamp)!
+            })
+            self.timer?.invalidate()
+            self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
         }
     }
     
@@ -156,6 +188,7 @@ class MessagesViewController: UITableViewController {
         let vc = ChatLogViewController(collectionViewLayout: UICollectionViewFlowLayout())
         navigationController?.pushViewController(vc, animated: true)
         vc.user = user
+        vc.inputTextField.becomeFirstResponder()
     }
     
     @objc func handleNewMessage() {

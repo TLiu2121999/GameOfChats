@@ -29,10 +29,10 @@ class ChatLogViewController: UICollectionViewController, UITextFieldDelegate, UI
     
     
     func observeMessages() {
-        guard let uid = Auth.auth().currentUser?.uid else {
+        guard let uid = Auth.auth().currentUser?.uid, let toId = user?.id else {
             return
         }
-        let ref = Database.database().reference().child("user-messages").child(uid)
+        let ref = Database.database().reference().child("user-messages").child(uid).child(toId)
         ref.observe(.childAdded) { (snapshot) in
             let messageId = snapshot.key
             let messageRef = Database.database().reference().child("messages").child(messageId)
@@ -44,12 +44,11 @@ class ChatLogViewController: UICollectionViewController, UITextFieldDelegate, UI
                     message.text = dict["text"]
                     message.timeStamp = dict["timeStamp"]
                     
-                    if message.chatPartnerId() == self.user?.id {
-                        self.messages.append(message)
-                        DispatchQueue.main.async {
-                            self.collectionView?.reloadData()
-                        }
+                    self.messages.append(message)
+                    DispatchQueue.main.async {
+                        self.collectionView?.reloadData()
                     }
+                    
                 }
             })
         }
@@ -57,12 +56,111 @@ class ChatLogViewController: UICollectionViewController, UITextFieldDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTextView()
+        
         collectionView?.backgroundColor = .white
         collectionView?.alwaysBounceVertical = true
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.contentInset = UIEdgeInsetsMake(8, 0, 58, 0)
         collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(8, 0, 58, 0)
+        collectionView?.keyboardDismissMode = .interactive
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+        
+        setupTextView()
+        setupKeyboardObservers()
+    }
+    
+    
+    //=============================================================================
+    /*
+     lazy var inputContainerView: UIView = {
+     
+     let containerView = UIView()
+     containerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50)
+     containerView.backgroundColor = UIColor.white
+     
+     let sendButton = UIButton(type: .system)
+     sendButton.setTitle("Send", for: UIControlState())
+     sendButton.translatesAutoresizingMaskIntoConstraints = false
+     sendButton.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
+     containerView.addSubview(sendButton)
+     
+     NSLayoutConstraint.activate([
+     sendButton.rightAnchor.constraint(equalTo: containerView.rightAnchor),
+     sendButton.widthAnchor.constraint(equalToConstant: 80),
+     sendButton.heightAnchor.constraint(equalTo: containerView.heightAnchor),
+     sendButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+     ])
+     
+     containerView.addSubview(inputTextField)
+     NSLayoutConstraint.activate([
+     inputTextField.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 8),
+     inputTextField.rightAnchor.constraint(equalTo: sendButton.leftAnchor),
+     inputTextField.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+     inputTextField.heightAnchor.constraint(equalTo: containerView.heightAnchor)
+     ])
+     
+     let dividerLine = UIView()
+     containerView.addSubview(dividerLine)
+     dividerLine.backgroundColor = .lightGray
+     dividerLine.translatesAutoresizingMaskIntoConstraints = false
+     NSLayoutConstraint.activate([
+     dividerLine.heightAnchor.constraint(equalToConstant: 0.5),
+     dividerLine.widthAnchor.constraint(equalTo: containerView.widthAnchor),
+     dividerLine.bottomAnchor.constraint(equalTo: containerView.topAnchor)
+     ])
+     
+     return containerView
+     }()
+     
+     override var inputAccessoryView: UIView? {
+     get {
+     return inputContainerView
+     }
+     }
+     
+     override var canBecomeFirstResponder : Bool {
+     return true
+     }
+     */
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func dismissKeyboard() {
+        inputTextField.resignFirstResponder()
+    }
+    
+    func setupKeyboardObservers() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(notification:)), name: .UIKeyboardWillHide, object: nil)
+        
+    }
+    
+    @objc func handleKeyboardWillShow(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+            let keyboardDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double else { return }
+        
+        containerViewBottomAnchor?.constant = -keyboardFrame.height + view.safeAreaInsets.bottom
+        UIView.animate(withDuration: keyboardDuration) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc func handleKeyboardWillHide(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let keyboardDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double,
+            let _ = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        
+        containerViewBottomAnchor?.constant = 0
+        UIView.animate(withDuration: keyboardDuration) {
+            self.view.layoutIfNeeded()
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -113,17 +211,20 @@ class ChatLogViewController: UICollectionViewController, UITextFieldDelegate, UI
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)], context: nil)
     }
     
+    var containerViewBottomAnchor: NSLayoutConstraint?
+    
     
     func setupTextView() {
         let containerView = UIView()
         containerView.backgroundColor = .white
         containerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(containerView)
+        containerViewBottomAnchor = containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         NSLayoutConstraint.activate([
-            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            containerViewBottomAnchor!,
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             containerView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
+            containerView.heightAnchor.constraint(equalToConstant: 50)
             ])
         
         let sendButton = UIButton(type: .system)
@@ -133,18 +234,18 @@ class ChatLogViewController: UICollectionViewController, UITextFieldDelegate, UI
         NSLayoutConstraint.activate([
             sendButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             sendButton.widthAnchor.constraint(equalToConstant: 80),
-            sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            sendButton.topAnchor.constraint(equalTo: containerView.topAnchor)
+            sendButton.heightAnchor.constraint(equalTo: containerView.heightAnchor),
+            sendButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
             ])
         sendButton.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
         
         
         containerView.addSubview(inputTextField)
         NSLayoutConstraint.activate([
-            inputTextField.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8),
+            inputTextField.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 8),
             inputTextField.rightAnchor.constraint(equalTo: sendButton.leftAnchor),
-            inputTextField.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            inputTextField.topAnchor.constraint(equalTo: containerView.topAnchor)
+            inputTextField.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            inputTextField.heightAnchor.constraint(equalTo: containerView.heightAnchor)
             ])
         
         let dividerLine = UIView()
@@ -153,28 +254,30 @@ class ChatLogViewController: UICollectionViewController, UITextFieldDelegate, UI
         dividerLine.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             dividerLine.heightAnchor.constraint(equalToConstant: 0.5),
-            dividerLine.widthAnchor.constraint(equalTo: view.widthAnchor),
+            dividerLine.widthAnchor.constraint(equalTo: containerView.widthAnchor),
             dividerLine.bottomAnchor.constraint(equalTo: containerView.topAnchor)
             ])
     }
     
     @objc func handleSendMessage() {
+        if inputTextField.text == "" { return }
+        
         let ref = Database.database().reference().child("messages")
         let childRef = ref.childByAutoId()
         let toId = user!.id!
         let fromId = Auth.auth().currentUser!.uid
         let timeStamp: String = String(Int(NSDate().timeIntervalSince1970))
         let values : [String : Any] = ["text" : inputTextField.text, "toId" : toId, "fromId" : fromId, "timeStamp" : timeStamp]
-
+        
         childRef.updateChildValues(values as! [String : String]) { (error, red) in
             if error != nil {
                 return
             }
-            let userMessageRef = Database.database().reference().child("user-messages").child(fromId)
+            let userMessageRef = Database.database().reference().child("user-messages").child(fromId).child(toId)
             let messageId = childRef.key
             userMessageRef.updateChildValues([messageId: 1])
             
-            let recipientUserMessageRef = Database.database().reference().child("user-messages").child(toId)
+            let recipientUserMessageRef = Database.database().reference().child("user-messages").child(toId).child(fromId)
             recipientUserMessageRef.updateChildValues([messageId: 1])
         }
         inputTextField.text = nil

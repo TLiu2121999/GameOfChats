@@ -203,7 +203,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         handleLogin()
-        return true
+        return false
     }
 }
 

@@ -39,36 +39,42 @@ class MessagesViewController: UITableViewController {
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
+        
         let ref = Database.database().reference().child("user-messages").child(uid)
         ref.observe(.childAdded) { (snapshot) in
-            let messageId = snapshot.key
-            let messageRef = Database.database().reference().child("messages").child(messageId)
-            messageRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                if let dict = snapshot.value as? [String: String] {
-                    let message = Message()
-                    message.fromId = dict["fromId"]
-                    message.toId = dict["toId"]
-                    message.text = dict["text"]
-                    message.timeStamp = dict["timeStamp"]
-                    
-                    if let chatPartnerId = message.chatPartnerId() {
-                        self.messagesDict[chatPartnerId] = message
-                        self.messages = Array(self.messagesDict.values)
-                        self.messages.sort(by: { (m1, m2) -> Bool in
-                            return Int(m1.timeStamp)! > Int(m2.timeStamp)!
-                        })
+            let userId = snapshot.key
+            
+            Database.database().reference().child("user-messages").child(uid).child(userId).observe(.childAdded, with: { (snapshot) in
+                let messageId = snapshot.key
+                let messageRef = Database.database().reference().child("messages").child(messageId)
+                messageRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    if let dict = snapshot.value as? [String: String] {
+                        let message = Message()
+                        message.fromId = dict["fromId"]
+                        message.toId = dict["toId"]
+                        message.text = dict["text"]
+                        message.timeStamp = dict["timeStamp"]
+                        
+                        if let chatPartnerId = message.chatPartnerId() {
+                            self.messagesDict[chatPartnerId] = message
+                            self.messages = Array(self.messagesDict.values)
+                            self.messages.sort(by: { (m1, m2) -> Bool in
+                                return Int(m1.timeStamp)! > Int(m2.timeStamp)!
+                            })
+                        }
+                        
+                        self.timer?.invalidate()
+                        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+                        
                     }
-                    
-                    self.timer?.invalidate()
-                    self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(handleReloadTable), userInfo: nil, repeats: false)
-                    
-                }
+                })
             })
+            
         }
     }
     
     
-    func handleReloadTable() {
+    @objc func handleReloadTable() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -88,8 +94,7 @@ class MessagesViewController: UITableViewController {
             }            
         }
     }
-    
-    
+        
     func setupNavBarWithUser(_ user: User){
         messages.removeAll()
         messagesDict.removeAll()

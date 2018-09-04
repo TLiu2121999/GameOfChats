@@ -38,13 +38,15 @@ class ChatLogViewController: UICollectionViewController, UITextFieldDelegate, UI
             let messageId = snapshot.key
             let messageRef = Database.database().reference().child("messages").child(messageId)
             messageRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                if let dict = snapshot.value as? [String: String] {
+                if let dict = snapshot.value as? [String: Any] {
                     let message = Message()
-                    message.fromId = dict["fromId"]
-                    message.toId = dict["toId"]
-                    message.text = dict["text"]
-                    message.timeStamp = dict["timeStamp"]
-                    message.imageURL = dict["imageURL"]
+                    message.fromId = dict["fromId"] as? String
+                    message.toId = dict["toId"] as? String
+                    message.text = dict["text"] as? String
+                    message.timeStamp = dict["timeStamp"] as? String
+                    message.imageURL = dict["imageURL"] as? String
+                    message.imageWidth = dict["imageWidth"] as? NSNumber
+                    message.imageHeight = dict["imageHeight"] as? NSNumber
                     self.messages.append(message)
                     DispatchQueue.main.async {
                         self.collectionView?.reloadData()
@@ -210,11 +212,22 @@ class ChatLogViewController: UICollectionViewController, UITextFieldDelegate, UI
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var height: CGFloat = 80
+        let message = messages[indexPath.item]
         if let text = messages[indexPath.row].text {
             height = estimateFrameForText(text: text).height + 20
         }
-        let frame = view.frame
-        return CGSize(width: frame.width, height: height)
+        else if let imageWidth = message.imageWidth?.floatValue, let imageHeight = message.imageHeight?.floatValue {
+            
+            // h1 / w1 = h2 / w2
+            // solve for h1
+            // h1 = h2 / w2 * w1
+            
+            height = CGFloat(imageHeight / imageWidth * 200)
+            
+        }
+        
+        let width = UIScreen.main.bounds.width
+        return CGSize(width: width, height: height)
     }
     
     private func estimateFrameForText(text: String) -> CGRect {
@@ -328,22 +341,22 @@ class ChatLogViewController: UICollectionViewController, UITextFieldDelegate, UI
                         return
                     }
                     if url != nil {
-                        self.sendMessageWithImageUrl(url!.absoluteString)
+                        self.sendMessageWithImageUrl(url!.absoluteString, image: image)
                     }
                 })
             })
         }
     }
     
-    fileprivate func sendMessageWithImageUrl(_ imageURL: String) {
+    fileprivate func sendMessageWithImageUrl(_ imageURL: String, image: UIImage) {
         let ref = Database.database().reference().child("messages")
         let childRef = ref.childByAutoId()
         let toId = user!.id!
         let fromId = Auth.auth().currentUser!.uid
         let timeStamp: String = String(Int(NSDate().timeIntervalSince1970))
-        let values : [String : Any] = ["imageURL": imageURL, "toId" : toId, "fromId" : fromId, "timeStamp" : timeStamp]
+        let values : [String : Any] = ["toId" : toId, "fromId" : fromId, "timeStamp" : timeStamp, "imageURL": imageURL, "imageWidth": image.size.width, "imageHeight": image.size.height]
         
-        childRef.updateChildValues(values as! [String : String]) { (error, ref) in
+        childRef.updateChildValues(values as! [String : Any]) { (error, ref) in
             if error != nil {
                 return
             }

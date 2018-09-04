@@ -81,7 +81,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }()
     
     lazy var loginRegisterSegmentControl: UISegmentedControl = {
-        let sc = UISegmentedControl(items: ["Login", "Register"])
+        let sc = UISegmentedControl(items: ["Login", "Register"])   
         sc.translatesAutoresizingMaskIntoConstraints = false
         sc.tintColor = .white
         sc.layer.cornerRadius = 5
@@ -117,7 +117,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             NSLayoutConstraint.activate([
                 profileImageView.centerXAnchor.constraint(equalTo: inputContainerView.centerXAnchor),
                 profileImageView.bottomAnchor.constraint(equalTo: loginRegisterSegmentControl.topAnchor, constant: -12),
-                profileImageView.widthAnchor.constraint(equalToConstant: 150),
+                profileImageView.widthAnchor.constraint(equalToConstant: 180),
                 profileImageView.heightAnchor.constraint(equalToConstant: 150)
                 
                 ])
